@@ -57,3 +57,13 @@ for size in sizes_dict.values():
         total_sizes += size
 
 print("Total sizes: ", total_sizes)
+
+unused_space = 70000000 - slash_size
+required_space = 30000000 - unused_space
+min_dir_size = slash_size
+
+for dir_size in sizes_dict.values():
+    if (dir_size >= required_space) and (dir_size < min_dir_size):
+        min_dir_size = dir_size
+
+print("Size of the directory to be deleted: ", min_dir_size)
