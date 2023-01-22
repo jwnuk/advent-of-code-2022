@@ -25,3 +25,35 @@ for ix, cycle in enumerate(cycles):
         sum_of_strenghts += cycle[0] * ix
 
 print("Sum of signal strenghts:", sum_of_strenghts)
+
+# part 2
+
+sprite = 0
+nc = 0
+image = ""
+
+for i in instructions:
+
+    if (nc % 40 >= sprite) and (nc % 40 <= sprite + 2):
+        image += "#"
+    else:
+        image += "."
+
+    if nc % 40 == 39:
+        image += "\n"
+
+    nc += 1
+
+    if i[:4] == "addx":
+        if (nc % 40 >= sprite) and (nc % 40 <= sprite + 2):
+            image += "#"
+        else:
+            image += "."
+
+        if nc % 40 == 39:
+            image += "\n"
+
+        sprite += int(i[5:])
+        nc += 1
+
+print(image)
