@@ -32,28 +32,23 @@ sprite = 0
 nc = 0
 image = ""
 
-for i in instructions:
-
-    if (nc % 40 >= sprite) and (nc % 40 <= sprite + 2):
-        image += "#"
+def draw_pixel(img, n_cycle, s_position):
+    if (n_cycle % 40 >= s_position) and (n_cycle % 40 <= s_position + 2):
+        img += "#"
     else:
-        image += "."
+        img += "."
 
-    if nc % 40 == 39:
-        image += "\n"
+    if n_cycle % 40 == 39:
+        img += "\n"
+    
+    n_cycle += 1
+    return (img, n_cycle)
 
-    nc += 1
+for i in instructions:
+    (image, nc) = draw_pixel(image, nc, sprite)
 
     if i[:4] == "addx":
-        if (nc % 40 >= sprite) and (nc % 40 <= sprite + 2):
-            image += "#"
-        else:
-            image += "."
-
-        if nc % 40 == 39:
-            image += "\n"
-
+        (image, nc) = draw_pixel(image, nc, sprite)
         sprite += int(i[5:])
-        nc += 1
 
 print(image)
