@@ -20,7 +20,12 @@ with open("input.txt") as notes:
             monkey["Inspected"] = 0
             monkeys.append(monkey)
 
-for round in range(20):
+common_test_value = 1
+for monkey in monkeys:
+    test_value = int(monkey["Test"][-1])
+    common_test_value *= test_value
+
+for round in range(10000):
     for m in monkeys:
         items = m["Items"]
         for i in range(len(items)):
@@ -34,12 +39,13 @@ for round in range(20):
                 item += increase
             elif m["Operation"][0] == "*":
                 item *= increase
-            item //= 3
+            # item //= 3
             if item % int(m["Test"][-1]) == 0:
                 new_owner = m["T"]
             else:
                 new_owner = m["F"]
             items.pop(0)
+            item %= common_test_value
             monkeys[new_owner]["Items"].append(item)
             m["Inspected"] += 1
 
