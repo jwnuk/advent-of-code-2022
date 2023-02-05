@@ -53,12 +53,12 @@ def get_neighbours(point=list, heights=list):
     return neighbours
 
 def move(heights):
-    positions_to_check = [(end, 0, [end])]
+    positions_to_check = [(end, 0)]
     visited = {str(positions_to_check[0][0]) + ";" + str(positions_to_check[0][1]): 0}
     best = 9999
 
     while len(positions_to_check) > 0:
-        current_coordinates, dist, path = positions_to_check.pop()
+        current_coordinates, dist = positions_to_check.pop()
         
         if current_coordinates in start and best > dist:
             best = dist
@@ -73,10 +73,10 @@ def move(heights):
                     continue
 
             visited[key] = dist
-            new_path = []
-            new_path.extend(path)
-            new_path.append(n)
-            positions_to_check.append((n, dist+1, new_path))
+            
+            old_positions_to_check = positions_to_check
+            positions_to_check = [(n, dist+1)]
+            positions_to_check.extend(old_positions_to_check)
 
     return best
 
