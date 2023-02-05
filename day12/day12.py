@@ -20,7 +20,7 @@ start, end = [], []
 for ix, line in enumerate(heights):
     for jx, height in enumerate(line):
         if height == "S":
-            start = [ix, jx]
+            start.append([ix, jx])
         elif height == "E":
             end = [ix, jx]
         heights[ix][jx] = alphabet_dict[height]
@@ -52,16 +52,17 @@ def get_neighbours(point=list, heights=list):
 
     return neighbours
 
-positions_to_check = [(end, 0, [end])]
-
-def move(positions_to_check, heights):
+def move(heights):
+    positions_to_check = [(end, 0, [end])]
     visited = {str(positions_to_check[0][0]) + ";" + str(positions_to_check[0][1]): 0}
-    
+    best = 9999
+
     while len(positions_to_check) > 0:
         current_coordinates, dist, path = positions_to_check.pop()
         
-        if current_coordinates == start:
-            print("Path complete, total steps:", dist)
+        if current_coordinates in start and best > dist:
+            best = dist
+            continue
             
         neighbours = get_neighbours(current_coordinates, heights)
 
@@ -77,5 +78,17 @@ def move(positions_to_check, heights):
             new_path.append(n)
             positions_to_check.append((n, dist+1, new_path))
 
-print(alphabet_dict)
-shortest_path = move(positions_to_check, heights)
+    return best
+
+shortest_path = move(heights)
+print("Path complete, total steps, part 1:", shortest_path)
+
+# part 2
+
+for ix, line in enumerate(heights):
+    for jx, height in enumerate(line):
+        if height == 0:
+            start.append([ix, jx])
+
+shortest_path = move(heights)
+print("Path complete, total steps, part 2:", shortest_path)
